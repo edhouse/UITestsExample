@@ -7,11 +7,11 @@ There is bussiness logic of the application. It is used for both WPF and also Wi
 
 ExampleApplication.WinForms
 ---------------------------
-The view layer for WinForms.
+The view layer for <i>WinForms</i>.
 
 ExampleApplication.Wpf
 ---------------------------
-The view layer for WPF.
+The view layer for <i>WPF</i>.
 
 ExampleApplication.UiTests.AppModel
 -----------------------------------
