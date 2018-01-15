@@ -1,0 +1,105 @@
+﻿<Window x:Class="ExampleApplication.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:ExampleApplication.Logic;assembly=ExampleApplication.Logic"
+        xmlns:converters="clr-namespace:ExampleApplication.Wpf.Converters"
+        xmlns:ids="clr-namespace:ExampleApplication.Resources.AutomationIdentifiers;assembly=ExampleApplication.Resources"
+        Title="MainWindow - WPF" MinHeight="350" Width="400" Height="400"
+        AutomationProperties.AutomationId="{x:Static ids:MainWindowIds.MainWindow}">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:PersonViewModel}">
+            <StackPanel>
+                <StackPanel Margin="0,0,0,10">
+                    <TextBlock Text="First Name:" FontWeight="Bold" Margin="0,0,10,0"/>
+                    <TextBox Name = "FirstName" Text="{Binding FirstName}"  AutomationProperties.AutomationId="{x:Static ids:MainWindowIds.FirstNameTextBox}"/>
+                </StackPanel>
+                <StackPanel Margin="0,0,0,10">
+                    <TextBlock Text="Last Name:" FontWeight="Bold" Margin="0,0,10,0"/>
+                    <TextBox Text="{Binding LastName}"  AutomationProperties.AutomationId="{x:Static ids:MainWindowIds.LastNameTextBox}"/>
+                </StackPanel>
+                <StackPanel Margin="0,0,0,10">
+                    <TextBlock Text="Description:" FontWeight="Bold"/>
+                    <TextBox Text="{Binding Description}"   AutomationProperties.AutomationId="{x:Static ids:MainWindowIds.DescriptionTextBox}"
+                             VerticalAlignment="Stretch" AcceptsReturn="True" TextWrapping="Wrap" Height="100"/>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
+
+        <DataTemplate DataType="{x:Type vm:Command}">
+            <Button Command="{Binding}" Content="{Binding Name}" ToolTip="{Binding Description}" ToolTipService.ShowOnDisabled="True" Margin="0,0,10,0"
+                    AutomationProperties.AutomationId="{Binding Name, StringFormat={x:Static ids:MainWindowIds.CommandButton}}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SimplePerson">
+            <TextBlock>
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} {1}">
+                        <Binding Path="FirstName"/>
+                        <Binding Path="LastName"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </DataTemplate>
+
+        <converters:EqualityConverter x:Key="EqualityConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Menu AutomationProperties.AutomationId="{x:Static ids:MainWindowIds.ApplicationMenu}" Grid.Row="0" >
+            <MenuItem Header="Edit" ItemsSource="{Binding Commands}" AutomationProperties.AutomationId="{x:Static ids:MainWindowIds.EditMenu}">
+                <MenuItem.ItemContainerStyle>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="Command" Value="{Binding}"/>
+                        <Setter Property="Header" Value="{Binding Name}"/>
+                        <Setter Property="AutomationProperties.Name" Value="{Binding Name, StringFormat={x:Static ids:MainWindowIds.CommandSubMenu}}"/>
+                    </Style>
+                </MenuItem.ItemContainerStyle>
+            </MenuItem>
+            <MenuItem Header="Items" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource SimplePerson}" AutomationProperties.AutomationId="{x:Static ids:MainWindowIds.ItemsMenu}">
+                <MenuItem.ItemContainerStyle>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="Command" Value="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}"/>
+                        <Setter Property="CommandParameter" Value="{Binding}"/>
+                        <Setter Property="AutomationProperties.Name" Value="{Binding WholeName}"/>
+                        <Setter Property="AutomationProperties.HelpText" Value="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                        <Setter Property="IsChecked">
+                            <Setter.Value>
+                                <MultiBinding Converter="{StaticResource EqualityConverter}">
+                                    <Binding Path="DataContext.SelectedItem" RelativeSource="{RelativeSource AncestorType={x:Type MenuItem}}"/>
+                                    <Binding Path="DataContext" RelativeSource="{RelativeSource self}"/>
+                                </MultiBinding>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </MenuItem.ItemContainerStyle>
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" ItemTemplate="{StaticResource SimplePerson}" AutomationProperties.AutomationId="{x:Static ids:MainWindowIds.ListBox}"/>
+            <Grid Grid.Column="1" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ContentPresenter Content="{Binding SelectedItem}" Grid.Row="0" Margin="0,0,0,10"/>
+                <ItemsControl ItemsSource="{Binding Commands}" Grid.Row="1">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Grid>
+        </Grid>
+    </Grid>
+
+</Window>
