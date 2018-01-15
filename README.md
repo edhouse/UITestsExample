@@ -3,7 +3,7 @@ Example how to do UI testing for WPF and WinForms applications.
 
 ExampleApplication.Logic
 ------------------------
-There is bussiness logic of the application. It is used for both WPF and also WinForms app version.
+There is bussiness logic of the application. It is used for both <i>WPF</i> and also <i>WinForms</i> app version.
 
 ExampleApplication.WinForms
 ---------------------------
