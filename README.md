@@ -29,4 +29,4 @@ Useful app to record the screen during the test.
 
 ExampleApplication.UiTests
 --------------------------
-There are actual tests. Tests are written as the XUnit tests using the <b>ExampleApplication.UiTests.AppModel</b> to perform the UI interaction. One class per each test scenario. Each test class inherits the <b>BaseTest</b> class. Each test runs new application instance and starts recording. At the end of the test recording is stopped. If the test succeeds the screen video is removed. If the test fails the screenshot is taken prior the application is shutdown. Screenshots and videos are named after the test.
+There are the actual tests. Tests are written as the XUnit tests using the <b>ExampleApplication.UiTests.AppModel</b> to perform the UI interaction. One class per each test scenario. Each test class inherits the <b>BaseTest</b> class. Each test runs new application instance and starts recording. At the end of the test recording is stopped. If the test succeeds the screen video is removed. If the test fails the screenshot is taken prior the application is shutdown. Screenshots and videos are named after the test.
