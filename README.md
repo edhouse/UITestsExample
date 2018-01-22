@@ -2,7 +2,6 @@
 Example how to do UI testing for <i>WPF</i> and <i>WinForms</i> applications.
 
 ![Tests overview](Screenshots/FailedTests.png)
-![Tested application](Screenshots/WpfApp.png)
 
 ExampleApplication.Logic
 ------------------------
