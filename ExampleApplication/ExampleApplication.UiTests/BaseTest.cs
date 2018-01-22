@@ -9,7 +9,7 @@ namespace ExampleApplication.UiTests
 {
     public class BaseTest : IDisposable
     {
-        private const ApplicationPlatform Platform = ApplicationPlatform.WinForms;
+        private const ApplicationPlatform Platform = ApplicationPlatform.Wpf;
 
         private const string Start = "Start ";
         private const string Stop = "Stop ";
